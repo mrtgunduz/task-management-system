@@ -1,2 +1,4 @@
-node_modules/
+# Angular specific
 .angular/
+node_modules/
+dist/
