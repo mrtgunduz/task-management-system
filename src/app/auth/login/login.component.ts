@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -7,19 +8,32 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  loginForm: FormGroup;
 
-  username = '';
-  password = '';
-
-  constructor(private authService: AuthService) {}
-
-  onLogin() {
-    const success = this.authService.login(this.username, this.password);
-    if (!success) {
-      alert('Invalid username or password!');
-    }
+  constructor(private fb: FormBuilder,private authService: AuthService) {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
   }
 
+  onLogin(): void {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+  
+    const { username, password } = this.loginForm.value;
+    const loginSuccess = this.authService.login(username, password);
+    if (!loginSuccess) {
+      this.showErrorMessage('Kullanıcı Adı veya Şifre Hatalı');
+    } 
+  }
+  
+  private showErrorMessage(message: string): void {
+    alert(message); 
+  }
+  
   ngOnInit(): void {
   }
 

@@ -1,12 +1,45 @@
-<h2>Login Page</h2>
-    <form (ngSubmit)="onLogin()">
-      <label>
-        Username:
-        <input [(ngModel)]="username" name="username" />
-      </label>
-      <label>
-        Password:
-        <input [(ngModel)]="password" type="password" name="password" />
-      </label>
-      <button type="submit">Login</button>
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-center text-gray-800">Login Page</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="space-y-4">
+      <!-- Username Input -->
+      <div>
+        <label for="username" class="block mb-2 text-sm font-medium text-gray-600">Username</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          placeholder="Enter your username"
+          class="w-full px-4 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+        <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="mt-1 text-sm text-red-500">
+          Username is required.
+        </div>
+      </div>
+
+      <!-- Password Input -->
+      <div>
+        <label for="password" class="block mb-2 text-sm font-medium text-gray-600">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          class="w-full px-4 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="mt-1 text-sm text-red-500">
+          Password is required.
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        [disabled]="loginForm.invalid"
+        class="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:bg-gray-300 disabled:cursor-not-allowed"
+      >
+        Login
+      </button>
     </form>
+  </div>
+</div>
